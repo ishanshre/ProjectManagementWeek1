@@ -1,0 +1,4 @@
+id,password,last_login,is_superuser,username,first_name,last_name,is_staff,is_active,date_joined,department,email,groups,user_permissions
+1,pbkdf2_sha256$600000$gJLvrdmLUk2eGcfNiBE3kg$Hv+w8D74OT86PZHB8Gvi8o2nk/gukEnYyiu/YlPqrKE=,2023-08-28 09:28:57.545844+00:00,True,admin,,,True,True,2023-08-28 09:28:28.938940+00:00,,admin@admin.com,auth.Group.None,auth.Permission.None
+2,pbkdf2_sha256$600000$Vdc8cq8w0oUtmCyj6GL2G5$U/Sg3yi6jhT9QSc/w0R9lQh+ihLxndpsAGslFF1UMYE=,,False,ishan,,,False,True,2023-08-28 09:45:15+00:00,Backend,ishan.naxa@gmail.com,auth.Group.None,auth.Permission.None
+3,pbkdf2_sha256$600000$MwT9QZX6OAUJrrHPgad0g7$zoxIU81BQ+bYQh7G3MsOGmArM/UXv2nbu/6fIsimmMY=,,False,naxa,,,False,True,2023-08-28 10:02:48.461120+00:00,HR,naxa@gmail.com,auth.Group.None,auth.Permission.None
