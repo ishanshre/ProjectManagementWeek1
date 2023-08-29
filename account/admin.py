@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from account.forms import CustomUserChangeForm, CustomUserCreationForm
+from account.mixins import ExportCsvMixin, ExportXlsMixins
 from account.models import Department, Profile
 
 User = get_user_model()
@@ -13,8 +14,14 @@ class ProfileInline(admin.StackedInline):
 
 
 @admin.register(User)
-class UserAdmin(BaseUserAdmin):
+class UserAdmin(ExportCsvMixin, ExportXlsMixins, BaseUserAdmin):
     list_display = ["username", "department", "is_staff"]
+    actions = [
+        "export_as_csv",
+        "export_as_xls",
+        "export_profile_as_csv",
+        "export_profile_as_xls",
+    ]
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     fieldsets = BaseUserAdmin.fieldsets + (
