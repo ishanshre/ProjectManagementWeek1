@@ -75,3 +75,10 @@ class ProjectCreateSerializer(BaseProjectSerializer):
 class ProjectEditSerializer(BaseProjectSerializer):
     class Meta(BaseProjectSerializer.Meta):
         pass
+
+
+class ProjectDocSerializer(BaseProjectSerializer):
+    documents = BaseDocumentSerializer(many=True, read_only=True)
+
+    class Meta(BaseProjectSerializer.Meta):
+        fields = BaseProjectSerializer.Meta.fields + ["documents"]

@@ -8,6 +8,7 @@ from api.serializers.serializers import (
     DocumentEditSerializer,
     DocumentListSerializer,
     ProjectCreateSerializer,
+    ProjectDocSerializer,
     ProjectEditSerializer,
     ProjectListSerializer,
 )
@@ -73,7 +74,7 @@ class ProjectEditApiView(mixins.DestroyModelMixin, generics.GenericAPIView):
     queryset = Project.objects.all()
 
     def get(self, request, *args, **kwargs):
-        serializer = ProjectListSerializer(self.get_object())
+        serializer = ProjectDocSerializer(self.get_object())
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):

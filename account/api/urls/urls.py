@@ -10,4 +10,9 @@ urlpatterns = [
         name="user-profile",
     ),
     path("auth/users/<int:pk>/", views.UserEditApiView.as_view(), name="user-detail"),
+    path(
+        "auth/users/<int:pk>/full",
+        views.UserFullDetailApiView.as_view(),
+        name="user-full-detail",
+    ),
 ]

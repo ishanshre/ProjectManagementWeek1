@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from account.api.serializers.serializers import (
     BaseUserSerializer,
@@ -7,6 +8,7 @@ from account.api.serializers.serializers import (
     ProfileSerializer,
     UserCreateSerializer,
     UserEditSerializer,
+    UserFullSerializer,
     UserListSerializer,
 )
 from account.models import Department, Profile, User
@@ -36,3 +38,12 @@ class UserEditApiView(generics.RetrieveUpdateDestroyAPIView):
 class ProfileEditApiView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
+
+
+class UserFullDetailApiView(APIView):
+    def get(self, request, *args, **kwargs):
+        pk = self.kwargs.get("pk")
+        user = User.objects.get(pk=pk)
+        serializer = UserFullSerializer(user)
+        print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
