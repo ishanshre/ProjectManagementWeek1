@@ -6,7 +6,7 @@ from rest_framework import serializers
 from rest_framework.settings import api_settings
 
 from account.models import Department, Profile, User
-from api.serializers.serializers import ProjectDocSerializer
+from api.serializers.serializers import DocumentListSerializer, ProjectListSerializer
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -169,10 +169,12 @@ class UserEditSerializer(BaseUserSerializer):
 
 
 class UserFullSerializer(BaseUserSerializer):
-    projects = ProjectDocSerializer(many=True, read_only=True)
+    projects = ProjectListSerializer(many=True, read_only=True)
+    files = DocumentListSerializer(many=True, read_only=True)
     department = serializers.StringRelatedField()
 
     class Meta(BaseUserSerializer.Meta):
         fields = BaseUserSerializer.Meta.fields + [
             "projects",
+            "files",
         ]

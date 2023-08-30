@@ -13,12 +13,14 @@ class BaseDocumentSerializer(serializers.ModelSerializer):
             "uploaded_at",
             "updated_at",
             "project",
+            "uploaded_by",
         ]
         read_only_fields = ["uuid", "uploaded_at", "updated_at"]
 
 
 class DocumentListSerializer(BaseDocumentSerializer):
     project = serializers.StringRelatedField()
+    uploaded_by = serializers.StringRelatedField()
 
     class Meta(BaseDocumentSerializer.Meta):
         pass

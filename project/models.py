@@ -43,7 +43,9 @@ class Document(models.Model):
     document = models.FileField(upload_to="project/files", null=True, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    uploaded_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="files"
+    )
     objects = models.Manager()
     uploaded = DocumentManager()
 
