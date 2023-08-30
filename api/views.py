@@ -51,3 +51,36 @@ class DocumentEditApiView(
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class ProjectListCreateApiView(generics.GenericAPIView):
+    serializer_class = BaseProjectSerializer
+    queryset = Project.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        serializer = ProjectListSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        serializer = ProjectCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class ProjectEditApiView(mixins.DestroyModelMixin, generics.GenericAPIView):
+    serializer_class = BaseProjectSerializer
+    queryset = Project.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        serializer = ProjectListSerializer(self.get_object())
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, *args, **kwargs):
+        serializer = ProjectCreateSerializer(self.get_object(), data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)

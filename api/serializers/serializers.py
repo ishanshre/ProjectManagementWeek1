@@ -64,10 +64,12 @@ class ProjectListSerializer(BaseProjectSerializer):
 
 
 class ProjectCreateSerializer(BaseProjectSerializer):
-    user = serializers.StringRelatedField(read_only=True)
-
     class Meta(BaseProjectSerializer.Meta):
         pass
+
+    def create(self, validated_data):
+        project = Project.objects.create(**validated_data)
+        return project
 
 
 class ProjectEditSerializer(BaseProjectSerializer):
