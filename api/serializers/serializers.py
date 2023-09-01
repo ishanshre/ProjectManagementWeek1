@@ -21,9 +21,13 @@ class BaseDocumentSerializer(serializers.ModelSerializer):
 class DocumentListSerializer(BaseDocumentSerializer):
     project = serializers.StringRelatedField()
     uploaded_by = serializers.StringRelatedField()
+    department = serializers.SerializerMethodField()
+
+    def get_department(self, obj):
+        return f"{obj.uploaded_by.department.name}"
 
     class Meta(BaseDocumentSerializer.Meta):
-        pass
+        fields = BaseDocumentSerializer.Meta.fields + ["department"]
 
 
 class DocumentCreateSerializer(BaseDocumentSerializer):

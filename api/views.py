@@ -1,6 +1,8 @@
-from rest_framework import generics, mixins, status
+from django_filters import rest_framework as drf_filters
+from rest_framework import filters, generics, mixins, status
 from rest_framework.response import Response
 
+from api.filters.filters import DocumentFilter
 from api.serializers.serializers import (
     BaseDocumentSerializer,
     BaseProjectSerializer,
@@ -15,24 +17,25 @@ from api.serializers.serializers import (
 from project.models import Document, Project
 
 
-class DocumentListCreateApiView(mixins.ListModelMixin, generics.GenericAPIView):
+class DocumentListCreateApiView(generics.ListCreateAPIView):
     queryset = Document.objects.all()
+    filter_backends = [
+        drf_filters.DjangoFilterBackend,
+        filters.OrderingFilter,
+    ]
+    ordering_fields = ["name", "uuid", "uploaded_by", "updated_by"]
+    filterset_class = DocumentFilter
+    serializer_class = DocumentListSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(self.get_queryset(), many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         serializer = DocumentCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def get_serializer(self, *args, **kwargs):
-        if self.request.method == "GET":
-            return DocumentListSerializer(self.get_queryset(), many=True)
-        if self.request.method == "POST":
-            return DocumentCreateSerializer()
-        return BaseDocumentSerializer()
 
 
 class DocumentEditApiView(
