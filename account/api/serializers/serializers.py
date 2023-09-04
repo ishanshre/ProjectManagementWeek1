@@ -178,3 +178,23 @@ class UserFullSerializer(BaseUserSerializer):
             "projects",
             "files",
         ]
+
+
+class UserStatsListSerializer(BaseUserSerializer):
+    no_of_projects = serializers.SerializerMethodField()
+    no_of_files = serializers.SerializerMethodField()
+
+    def get_no_of_files(self, obj):
+        return obj.files.all().count()
+
+    def get_no_of_projects(self, obj):
+        return obj.projects.all().count()
+
+    class Meta(BaseUserSerializer.Meta):
+        fields = [
+            "id",
+            "username",
+            "no_of_projects",
+            "no_of_files",
+            # "no_of_projects_month",
+        ]

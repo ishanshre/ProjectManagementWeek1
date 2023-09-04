@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # third party apps
     "rest_framework",
     "django_filters",
+    "debug_toolbar",
     # local apps
     "account.apps.AccountConfig",
     "project.apps.ProjectConfig",
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "week1.urls"
@@ -148,3 +150,8 @@ AUTH_USER_MODEL = "account.User"
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"]
 }
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
