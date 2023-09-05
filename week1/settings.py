@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # third party apps
     "rest_framework",
     "django_filters",
+    "leaflet",
     "debug_toolbar",
     # local apps
     "account.apps.AccountConfig",
@@ -167,3 +168,11 @@ if DEBUG:
     ]
 
 GDAL_LIBRARY_PATH = "/usr/lib/libgdal.so"
+
+LEAFLET_CONFIG = {
+    "DEFAULT_CENTER": (27.671671, 85.286865),
+    "DEFAULT_ZOOM": 8,
+    "MAX_ZOOM": 20,
+    "MIN_ZOOM": 3,
+    "SCALE": "both",
+}

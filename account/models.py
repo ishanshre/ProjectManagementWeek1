@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.gis.db import models as geomodels
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -24,17 +25,20 @@ class User(AbstractUser):
         return self.username
 
 
-class Profile(models.Model):
+class Profile(geomodels.Model):
     GENDER_CHOICES = [
         ("Male", _("Male")),
         ("Female", _("Female")),
         ("Others", _("Others")),
     ]
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    bio = models.TextField(max_length=10000, null=True, blank=True)
-    avatar = models.ImageField(upload_to="user/avatar", null=True, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True)
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
+    user = geomodels.OneToOneField(
+        User, on_delete=geomodels.CASCADE, related_name="profile"
+    )
+    bio = geomodels.TextField(max_length=10000, null=True, blank=True)
+    avatar = geomodels.ImageField(upload_to="user/avatar", null=True, blank=True)
+    date_of_birth = geomodels.DateField(null=True, blank=True)
+    gender = geomodels.CharField(max_length=6, choices=GENDER_CHOICES)
+    home_address = geomodels.PointField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username

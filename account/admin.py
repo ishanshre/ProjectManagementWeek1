@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from leaflet.admin import LeafletGeoAdminMixin
 
 from account.forms import CustomUserChangeForm, CustomUserCreationForm
 from account.mixins import ExportCsvMixin, ExportXlsMixins
@@ -9,7 +10,7 @@ from account.models import Department, Profile
 User = get_user_model()
 
 
-class ProfileInline(admin.StackedInline):
+class ProfileInline(LeafletGeoAdminMixin, admin.StackedInline):
     model = Profile
 
 

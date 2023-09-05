@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 
 from django.contrib.auth.password_validation import validate_password
@@ -24,9 +25,17 @@ class ProfileSerializer(serializers.ModelSerializer):
     Serializer for Profile Model
     """
 
+    home_address = serializers.SerializerMethodField()
+
+    def get_home_address(self, obj):
+        if obj.home_address:
+            home_address_dict = obj.home_address.geojson
+            return json.loads(home_address_dict)
+        return obj.home_address
+
     class Meta:
         model = Profile
-        fields = ["bio", "avatar", "gender", "date_of_birth"]
+        fields = ["bio", "avatar", "gender", "date_of_birth", "home_address"]
 
     def validate(self, attrs):
         date_of_birth = attrs["date_of_birth"]
