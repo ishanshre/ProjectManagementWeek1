@@ -4,8 +4,8 @@
 ```
 DJANGO_SECRET=your project secret
 DEBUG=True
-db_name=your database name
-db_user=your database username
-db_password=your database password
-db_host=your database connection domain
-db_port=your database port
+POSTGRES_NAME=your database name
+POSTGRES_USER=your database username
+POSTGRES_PASSWORD=your database password
+POSTGRES_DB=your database connection url
+POSTGRES_PORT=your database port

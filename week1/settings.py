@@ -93,11 +93,11 @@ WSGI_APPLICATION = "week1.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": os.environ.get("db_name", "postgres"),
-        "USER": os.environ.get("db_user", "postgres"),
-        "PASSWORD": os.environ.get("db_password", "postgres"),
-        "HOST": os.environ.get("db_host", "postgres"),
-        "PORT": os.environ.get("db_port", "5432"),
+        "NAME": os.environ.get("POSTGRES_NAME", "postgres"),
+        "USER": os.environ.get("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "postgres"),
+        "HOST": os.environ.get("POSTGRES_DB", "postgres"),
+        "PORT": os.environ.get("POSTGRES_PORT", "5432"),
     }
 }
 
