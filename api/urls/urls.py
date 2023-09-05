@@ -11,4 +11,9 @@ urlpatterns = [
         views.ProjectEditApiView.as_view(),
         name="project-edit",
     ),
+    path(
+        "projects/<int:pk>/sites/",
+        views.ProjectSiteApiView.as_view(),
+        name="project-sites",
+    ),
 ]

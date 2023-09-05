@@ -6,6 +6,7 @@ from api.filters.filters import DocumentFilter
 from api.serializers.serializers import (
     BaseDocumentSerializer,
     BaseProjectSerializer,
+    BaseProjectSiteSerializer,
     DocumentCreateSerializer,
     DocumentEditSerializer,
     DocumentListSerializer,
@@ -13,8 +14,9 @@ from api.serializers.serializers import (
     ProjectDocSerializer,
     ProjectEditSerializer,
     ProjectListSerializer,
+    ProjectSiteListSerializer,
 )
-from project.models import Document, Project
+from project.models import Document, Project, ProjectSite
 
 
 class DocumentListCreateApiView(generics.ListCreateAPIView):
@@ -88,3 +90,10 @@ class ProjectEditApiView(mixins.DestroyModelMixin, generics.GenericAPIView):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class ProjectSiteApiView(generics.ListAPIView):
+    serializer_class = ProjectSiteListSerializer
+
+    def get_queryset(self):
+        return ProjectSite.objects.filter(project__pk=self.kwargs.get("pk"))

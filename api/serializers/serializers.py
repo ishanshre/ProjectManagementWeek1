@@ -1,6 +1,8 @@
+import json
+
 from rest_framework import serializers
 
-from project.models import Document, Project
+from project.models import Document, Project, ProjectSite
 
 
 class BaseDocumentSerializer(serializers.ModelSerializer):
@@ -88,3 +90,33 @@ class ProjectDocSerializer(BaseProjectSerializer):
 
     class Meta(BaseProjectSerializer.Meta):
         fields = BaseProjectSerializer.Meta.fields + ["documents"]
+
+
+class BaseProjectSiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectSite
+        fields = ["id", "site", "coordinate", "area", "way", "created_at", "updated_at"]
+        read_only_fields = ["created_at", "updated_at"]
+
+
+class ProjectSiteListSerializer(BaseProjectSiteSerializer):
+    coordinate = serializers.SerializerMethodField()
+    area = serializers.SerializerMethodField()
+    way = serializers.SerializerMethodField()
+
+    def parse_geojson(self, field):
+        if field:
+            return json.loads(field.geojson)
+        return field
+
+    def get_coordinate(self, obj):
+        return self.parse_geojson(obj.coordinate)
+
+    def get_area(self, obj):
+        return self.parse_geojson(obj.area)
+
+    def get_way(self, obj):
+        return self.parse_geojson(obj.way)
+
+    class Meta(BaseProjectSiteSerializer.Meta):
+        pass

@@ -1,6 +1,8 @@
 import uuid
 
 from django.contrib.auth import get_user_model
+from django.contrib.gis.db import models as geomodels
+from django.contrib.gis.geos import LineString
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -52,3 +54,31 @@ class Document(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProjectSite(geomodels.Model):
+    project = geomodels.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="sites"
+    )
+    site = geomodels.CharField(max_length=100)
+    coordinate = geomodels.PointField(blank=True, null=True)
+    area = geomodels.PolygonField(blank=True, null=True)
+    way = geomodels.LineStringField(blank=True, null=True)
+    created_at = geomodels.DateTimeField(auto_now_add=True)
+    updated_at = geomodels.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.project.title
+
+    def create_line_string(self):
+        return LineString(self.coordinate, self.project.user.profile.home_address)
+
+    def save(self, *args, **kwargs):
+        if self.coordinate and self.project.user.profile.home_address:
+            self.way = self.create_line_string()
+        return super().save(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.coordinate and self.project.user.profile.home_address:
+            self.way = self.create_line_string()
