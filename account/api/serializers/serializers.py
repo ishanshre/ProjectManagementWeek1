@@ -37,7 +37,7 @@ class ProfileSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {"date_of_birth": "Age must be more than 15 years old"}
                 )
-        if len(attrs["profile"]["bio"]) > 10000:
+        if len(attrs["bio"]) > 10000:
             raise serializers.ValidationError("10000 character limit")
         return attrs
 

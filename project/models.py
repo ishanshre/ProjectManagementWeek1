@@ -24,6 +24,7 @@ class Project(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=10000)
     status = models.CharField(max_length=10, choices=STATUS, default=ACTIVE)
+    deadline = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

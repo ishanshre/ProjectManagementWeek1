@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
     # third party apps
     "rest_framework",
     "django_filters",
@@ -90,11 +91,11 @@ WSGI_APPLICATION = "week1.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": os.environ.get("db_name", "postgres"),
         "USER": os.environ.get("db_user", "postgres"),
         "PASSWORD": os.environ.get("db_password", "postgres"),
-        "HOST": os.environ.get("db_host", "localhost"),
+        "HOST": os.environ.get("db_host", "postgres"),
         "PORT": os.environ.get("db_port", "5432"),
     }
 }
@@ -155,3 +156,14 @@ REST_FRAMEWORK = {
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+if DEBUG:
+    import socket  # only if you haven't already imported this
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
+        "127.0.0.1",
+        "10.0.2.2",
+    ]
+
+GDAL_LIBRARY_PATH = "/usr/lib/libgdal.so"
